@@ -7,3 +7,6 @@ all:
 
 run: all
 	./bin/${BIN}
+
+clean:
+	rm -rf bin
