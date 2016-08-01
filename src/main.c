@@ -2,10 +2,13 @@
 #include "utils.h"
 #include "main_menu.h"
 #include "game.h"
+#include "game_over.h"
 
-enum Screens { MAIN_MENU = 0, GAME, GAME_OVER, CREDITS } currentScreen;
+static enum Screens { MAIN_MENU = 0, GAME, GAME_OVER, CREDITS } currentScreen;
 
-int shouldQuit = false;
+static int shouldQuit = false;
+static int screenWidth = 800;
+static int screenHeight = 600;
 
 static void HandleMainMenu()
 {
@@ -24,13 +27,39 @@ static void HandleMainMenu()
 
 static void HandleGame()
 {
-    UpdateGameScreen();
+    int gameState = UpdateGameScreen();
+    int lost = 1;
+
+    switch(gameState)
+    {
+        case GS_WON:
+            lost = 0;
+        case GS_LOST:
+            currentScreen = GAME_OVER;
+            InitGameOverScreen(screenWidth, screenHeight, lost);
+            break;
+        default:
+            break;
+    }
+}
+
+static void HandleGameOver()
+{
+    int ret = UpdateGameOverScreen();
+
+    if(ret == 1)
+    {
+        currentScreen = GAME;
+        InitGameScreen(screenWidth, screenHeight);
+    }
+    else if(ret == 2)
+    {
+        shouldQuit = true;
+    }
 }
 
 int main()
 {
-    int screenWidth = 800;
-    int screenHeight = 600;
 
     //SetConfigFlags(FLAG_SHOW_LOGO);
 
@@ -52,6 +81,7 @@ int main()
                 HandleGame();
                 break;
             case GAME_OVER:
+                HandleGameOver();
                 break;
             case CREDITS:
                 break;

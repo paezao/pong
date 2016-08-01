@@ -5,6 +5,7 @@ static void InitPlayer(struct Player *player, const int posX, const int posY, Co
     player->padPosition.x = posX;
     player->padPosition.y = posY;
     player->padColor = color;
+    player->score = 0;
 }
 
 static void InitPlayers()
@@ -29,15 +30,19 @@ void InitGameScreen(int _screenWidth, int _screenHeight)
     midScreenX = screenWidth / 2;
     midScreenY = screenHeight / 2;
 
+    currentGameState = GS_PLAYING;
+
     InitPlayers();
     InitBall();
 }
 
-void UpdateGameScreen()
+int UpdateGameScreen()
 {
     Physics();
     Input();
     Draw();
+
+    return currentGameState;
 }
 
 static void Draw()
@@ -94,6 +99,15 @@ static void Physics()
         ball.position.y = midScreenY;
         ball.speed.x = -1.0f;
         ball.speed.y = 0.0f;
+    }
+
+    if(player1.score >= 2)
+    {
+        currentGameState = GS_WON;
+    }
+    else if(player2.score >= 2)
+    {
+        currentGameState = GS_LOST;
     }
 
     // Collisions

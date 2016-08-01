@@ -3,14 +3,16 @@
 
 #include "raylib.h"
 
-struct Player
+enum GameState { GS_PLAYING = 0, GS_WON, GS_LOST, GS_MENU } currentGameState;
+
+static struct Player
 {
     Vector2 padPosition;
     Color padColor;
     int score;
 } player1, player2;
 
-struct Ball
+static struct Ball
 {
     Vector2 position;
     float radius;
@@ -31,6 +33,6 @@ static void Input();
 static void Physics();
 
 void InitGameScreen(int _screenWidth, int _screenHeight);
-void UpdateGameScreen();
+int UpdateGameScreen();
 
 #endif
