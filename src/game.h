@@ -3,7 +3,7 @@
 
 #include "raylib.h"
 
-enum GameState { GS_PLAYING = 0, GS_WON, GS_LOST, GS_MENU } currentGameState;
+enum GameState { GS_PLAYING = 0, GS_WON, GS_LOST, GS_MENU, GS_QUITTING } currentGameState;
 
 static struct Player
 {
@@ -31,6 +31,7 @@ static void InitBall();
 static void Draw();
 static void Input();
 static void Physics();
+static void DrawMenu();
 
 void InitGameScreen(int _screenWidth, int _screenHeight);
 int UpdateGameScreen();

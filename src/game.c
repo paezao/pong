@@ -1,5 +1,8 @@
 #include "game.h"
 
+#define RAYGUI_IMPLEMENTATION
+#include "raygui.h"
+
 static void InitPlayer(struct Player *player, const int posX, const int posY, Color color)
 {
     player->padPosition.x = posX;
@@ -38,9 +41,16 @@ void InitGameScreen(int _screenWidth, int _screenHeight)
 
 int UpdateGameScreen()
 {
-    Physics();
-    Input();
-    Draw();
+    if(currentGameState == GS_PLAYING)
+    {
+        Physics();
+        Input();
+        Draw();
+    }
+    else
+    {
+        DrawMenu();
+    }
 
     return currentGameState;
 }
@@ -80,6 +90,11 @@ static void Input()
 
     if(IsKeyDown(KEY_UP)) if(player2.padPosition.y > 0) player2.padPosition.y -= 1;
     if(IsKeyDown(KEY_DOWN)) if(player2.padPosition.y + padHeight < screenHeight) player2.padPosition.y += 1;
+
+    if(IsKeyDown(KEY_ESCAPE))
+    {
+        currentGameState = GS_MENU;
+    }
 }
 
 static void Physics()
@@ -137,4 +152,23 @@ static void Physics()
         ball.position.x += ball.speed.x;
         ball.position.y += ball.speed.y;
     }
+}
+
+static void DrawMenu()
+{
+    BeginDrawing();
+
+    Rectangle playButtonBounds = { 100, 100, 100, 40 };
+    if(GuiButton(playButtonBounds, "CONTINUE"))
+    {
+        currentGameState = GS_PLAYING;
+    }
+
+    Rectangle quitButtonBounds = { 100, 150, 100, 40 };
+    if(GuiButton(quitButtonBounds, "QUIT"))
+    {
+        currentGameState = GS_QUITTING;
+    }
+
+    EndDrawing();
 }

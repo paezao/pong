@@ -38,6 +38,8 @@ static void HandleGame()
             currentScreen = GAME_OVER;
             InitGameOverScreen(screenWidth, screenHeight, lost);
             break;
+        case GS_QUITTING:
+            shouldQuit = true;
         default:
             break;
     }
@@ -70,7 +72,7 @@ int main()
     currentScreen = MAIN_MENU;
     InitMainMenuScreen(screenWidth, screenHeight);
 
-    while(!WindowShouldClose() && !shouldQuit)
+    while(!shouldQuit)
     {
         switch(currentScreen)
         {
