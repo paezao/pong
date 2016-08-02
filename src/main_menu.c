@@ -7,6 +7,8 @@ void InitMainMenuScreen(int _screenWidth, int _screenHeight)
 {
     screenHeight = _screenHeight;
     screenWidth = _screenWidth;
+
+    menuSelectionSound = LoadSound("assets/sounds/selectSwitch152.wav");
 }
 
 int UpdateMainMenuScreen()
@@ -20,12 +22,14 @@ int UpdateMainMenuScreen()
     Rectangle playButtonBounds = { 100, 100, 100, 40 };
     if(GuiButton(playButtonBounds, "PLAY"))
     {
+        PlaySound(menuSelectionSound);
         ret = 0;
     }
 
     Rectangle quitButtonBounds = { 100, 150, 100, 40 };
     if(GuiButton(quitButtonBounds, "QUIT"))
     {
+        PlaySound(menuSelectionSound);
         ret = 1;
     }
 

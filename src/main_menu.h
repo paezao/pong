@@ -5,6 +5,8 @@
 
 static int screenHeight, screenWidth;
 
+static Sound menuSelectionSound;
+
 void InitMainMenuScreen(int _screenWidth, int _screenHeight);
 int UpdateMainMenuScreen();
 

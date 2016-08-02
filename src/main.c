@@ -40,6 +40,11 @@ static void HandleGame()
             break;
         case GS_QUITTING:
             shouldQuit = true;
+            break;
+        case GS_QUITTING_TO_MENU:
+            currentScreen = MAIN_MENU;
+            InitMainMenuScreen(screenWidth, screenHeight);
+            break;
         default:
             break;
     }
@@ -58,6 +63,11 @@ static void HandleGameOver()
     {
         shouldQuit = true;
     }
+    else if(ret == 3)
+    {
+        currentScreen = MAIN_MENU;
+        InitMainMenuScreen(screenWidth, screenHeight);
+    }
 }
 
 int main()
@@ -66,6 +76,8 @@ int main()
     //SetConfigFlags(FLAG_SHOW_LOGO);
 
     InitWindow(screenWidth, screenHeight, "Pong");
+
+    InitAudioDevice();
 
     SetTargetFPS(144);
 
@@ -89,6 +101,8 @@ int main()
                 break;
         }
     }
+
+    CloseAudioDevice();
 
     CloseWindow();
 

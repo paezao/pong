@@ -3,7 +3,7 @@
 
 #include "raylib.h"
 
-enum GameState { GS_PLAYING = 0, GS_WON, GS_LOST, GS_MENU, GS_QUITTING } currentGameState;
+enum GameState { GS_PLAYING = 0, GS_WON, GS_LOST, GS_MENU, GS_QUITTING, GS_QUITTING_TO_MENU } currentGameState;
 
 static struct Player
 {
@@ -24,6 +24,8 @@ static int screenHeight, screenWidth, midScreenX, midScreenY;
 
 static int padHeight = 50;
 static int padWidth = 5;
+
+static Sound menuSelectionSound, padHitSound, scoreSound;
 
 static void InitPlayer(struct Player *player, const int posX, const int posY, Color color);
 static void InitPlayers();

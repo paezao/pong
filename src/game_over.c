@@ -35,16 +35,22 @@ static void Draw()
         color = RED;
     }
 
-    DrawText(gameOverText, midScreenY, midScreenY - MeasureText(gameOverText, 30) / 2, 30, color);
+    DrawText(gameOverText, midScreenY + 100, midScreenY - MeasureText(gameOverText, 30) / 2, 30, color);
 
-    Rectangle playButtonBounds = { 100, 100, 100, 40 };
+    Rectangle playButtonBounds = { 100, 100, 200, 40 };
     if(GuiButton(playButtonBounds, "PLAY AGAIN"))
     {
         returnValue = 1;
     }
 
-    Rectangle quitButtonBounds = { 100, 150, 100, 40 };
-    if(GuiButton(quitButtonBounds, "QUIT"))
+    Rectangle quitToMenuButtonBounds = { 100, 150, 200, 40 };
+    if(GuiButton(quitToMenuButtonBounds, "QUIT TO MAIN MENU"))
+    {
+        returnValue = 3;
+    }
+
+    Rectangle quitButtonBounds = { 100, 200, 200, 40 };
+    if(GuiButton(quitButtonBounds, "QUIT TO DESKTOP"))
     {
         returnValue = 2;
     }

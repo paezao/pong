@@ -33,6 +33,10 @@ void InitGameScreen(int _screenWidth, int _screenHeight)
     midScreenX = screenWidth / 2;
     midScreenY = screenHeight / 2;
 
+    menuSelectionSound = LoadSound("assets/sounds/selectSwitch152.wav");
+    padHitSound = LoadSound("assets/sounds/hitDamage053.wav");
+    scoreSound = LoadSound("assets/sounds/powerUp018.wav");
+
     currentGameState = GS_PLAYING;
 
     InitPlayers();
@@ -101,6 +105,7 @@ static void Physics()
 {
     if(ball.position.x < 0)
     {
+        PlaySound(scoreSound);
         player2.score += 1;
         ball.position.x = midScreenX;
         ball.position.y = midScreenY;
@@ -109,6 +114,7 @@ static void Physics()
     }
     else if(ball.position.x > screenWidth)
     {
+        PlaySound(scoreSound);
         player1.score += 1;
         ball.position.x = midScreenX;
         ball.position.y = midScreenY;
@@ -129,6 +135,7 @@ static void Physics()
     Rectangle player1Rectangle = { player1.padPosition.x, player1.padPosition.y, padWidth, padHeight };
     if(CheckCollisionCircleRec(ball.position, ball.radius, player1Rectangle))
     {
+        PlaySound(padHitSound);
         ball.speed.x *= -1;
         ball.speed.y = GetRandomValue(-1, 1);
     }
@@ -136,6 +143,7 @@ static void Physics()
     Rectangle player2Rectangle = { player2.padPosition.x, player2.padPosition.y, padWidth, padHeight };
     if(CheckCollisionCircleRec(ball.position, ball.radius, player2Rectangle))
     {
+        PlaySound(padHitSound);
         ball.speed.x *= -1;
         ball.speed.y = GetRandomValue(-1, 1);
     }
@@ -158,14 +166,22 @@ static void DrawMenu()
 {
     BeginDrawing();
 
-    Rectangle playButtonBounds = { 100, 100, 100, 40 };
+    Rectangle playButtonBounds = { 100, 100, 150, 40 };
     if(GuiButton(playButtonBounds, "CONTINUE"))
     {
         currentGameState = GS_PLAYING;
+        PlaySound(menuSelectionSound);
     }
 
-    Rectangle quitButtonBounds = { 100, 150, 100, 40 };
-    if(GuiButton(quitButtonBounds, "QUIT"))
+    Rectangle quitToMenuButtonBounds = { 100, 150, 150, 40 };
+    if(GuiButton(quitToMenuButtonBounds, "QUIT TO MENU"))
+    {
+        currentGameState = GS_QUITTING_TO_MENU;
+        PlaySound(menuSelectionSound);
+    }
+
+    Rectangle quitButtonBounds = { 100, 200, 150, 40 };
+    if(GuiButton(quitButtonBounds, "QUIT TO DESKTOP"))
     {
         currentGameState = GS_QUITTING;
     }
